@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
@@ -8,11 +9,13 @@ public class PlayerShooting : MonoBehaviour
     public LayerMask enemyLayer;
     public PlayerMovementAdvanced playerMovement; // Reference to the PlayerMovement script
 
+
     void Update()
     {
         if (Input.GetButtonDown("Fire1"))
         {
             Shoot();
+            
         }
     }
 
