@@ -3,38 +3,41 @@ using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
-    public float damage = 10f;
-    public float range = 100f;
-    public Camera fpsCam;
-    public LayerMask enemyLayer;
-    public PlayerMovementAdvanced playerMovement; // Reference to the PlayerMovement script
+    [Header("Shooting Settings")]
+    [SerializeField] private float damage = 10f;
+    [SerializeField] private float range = 100f;
+    [SerializeField] private Camera fpsCam;
+    [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private PlayerMovementAdvanced playerMovement;
 
-
-    void Update()
+    private void Update()
     {
         if (Input.GetButtonDown("Fire1"))
         {
             Shoot();
-            
         }
     }
 
-    void Shoot()
+    private void Shoot()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range, enemyLayer))
+        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out RaycastHit hit, range, enemyLayer))
         {
-            Enemy enemy = hit.transform.GetComponent<Enemy>();
-            if (enemy != null)
-            {
-                float finalDamage = damage;
-                if (!playerMovement.grounded) // Check if the player is not grounded (jumping or sliding)
-                {
-                    finalDamage *= 1.5f;
-                }
-
-                enemy.TakeDamage(finalDamage);
-            }
+            ProcessShot(hit);
         }
+    }
+
+    private void ProcessShot(RaycastHit hit)
+    {
+        Enemy enemy = hit.transform.GetComponent<Enemy>();
+        if (enemy != null)
+        {
+            float finalDamage = CalculateDamage();
+            enemy.TakeDamage(finalDamage);
+        }
+    }
+
+    private float CalculateDamage()
+    {
+        return (!playerMovement.IsGrounded() || playerMovement.GetState() == PlayerMovementAdvanced.MovementState.Air) ? damage * 1.5f : damage;
     }
 }
