@@ -21,6 +21,13 @@ public class PlayerMovementAdvanced : MonoBehaviour
     [SerializeField] private float crouchYScale;
     private float startYScale;
 
+    [Header("Dashing")]
+    [SerializeField] private float dashForce;
+    [SerializeField] private float dashDuration;
+    [SerializeField] private KeyCode dashKey = KeyCode.V;
+    [SerializeField] private float dashCooldown = 10f;
+    private bool readyToDash = true;
+
     [Header("Keybinds")]
     [SerializeField] private KeyCode jumpKey = KeyCode.Space;
     [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
@@ -48,7 +55,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
         Walking,
         Sprinting,
         Crouching,
-        Air
+        Air,
+        Dashing
     }
 
     private void Start()
@@ -76,6 +84,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
         HandleJumpInput();
         HandleCrouchInput();
+        HandleDashInput();
     }
 
     private void HandleJumpInput()
@@ -94,6 +103,15 @@ public class PlayerMovementAdvanced : MonoBehaviour
         else if (Input.GetKeyUp(crouchKey)) StopCrouch();
     }
 
+    private void HandleDashInput()
+    {
+        if (Input.GetKeyDown(dashKey) && readyToDash)
+        {
+            Debug.Log("Dash key pressed"); // Debug log
+            StartDash();
+        }
+    }
+
     private void StartCrouch()
     {
         transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
@@ -107,10 +125,24 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void HandleState()
     {
-        if (IsCrouching()) SetState(MovementState.Crouching, crouchSpeed);
-        else if (IsSprinting()) SetState(MovementState.Sprinting, sprintSpeed);
-        else if (grounded) SetState(MovementState.Walking, walkSpeed);
-        else SetState(MovementState.Air, moveSpeed);
+        if (state == MovementState.Dashing) return;
+
+        if (IsCrouching())
+        {
+            SetState(MovementState.Crouching, crouchSpeed);
+        }
+        else if (IsSprinting())
+        {
+            SetState(MovementState.Sprinting, sprintSpeed);
+        }
+        else if (grounded)
+        {
+            SetState(MovementState.Walking, walkSpeed);
+        }
+        else
+        {
+            SetState(MovementState.Air, moveSpeed);
+        }
     }
 
     private bool IsCrouching() => Input.GetKey(crouchKey);
@@ -149,8 +181,11 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void ControlSpeed()
     {
-        if (OnSlope() && !exitingSlope) LimitSlopeSpeed();
-        else LimitGroundAirSpeed();
+        if (state != MovementState.Dashing) // Ensure speed control doesn't affect dashing
+        {
+            if (OnSlope() && !exitingSlope) LimitSlopeSpeed();
+            else LimitGroundAirSpeed();
+        }
     }
 
     private void LimitSlopeSpeed()
@@ -191,6 +226,29 @@ public class PlayerMovementAdvanced : MonoBehaviour
     {
         readyToJump = true;
         exitingSlope = false;
+    }
+
+    private void StartDash()
+    {
+        Debug.Log("Starting Dash"); // Debug log
+        readyToDash = false;
+        state = MovementState.Dashing;
+        rb.velocity = Vector3.zero; // Stop current movement
+        rb.AddForce(moveDirection.normalized * dashForce, ForceMode.VelocityChange);
+        Invoke(nameof(StopDash), dashDuration);
+    }
+
+    private void StopDash()
+    {
+        Debug.Log("Stopping Dash"); // Debug log
+        state = MovementState.Walking;
+        Invoke(nameof(ResetDash), dashCooldown);
+    }
+
+    private void ResetDash()
+    {
+        Debug.Log("Resetting Dash"); // Debug log
+        readyToDash = true;
     }
 
     public bool IsGrounded() => grounded;

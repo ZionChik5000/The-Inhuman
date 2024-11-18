@@ -773,32 +773,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7787c9b6aab94d4681f9d409008bdcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 0
   walkSpeed: 7
   sprintSpeed: 11
-  crouchSpeed: 3.5
-  crouchYScale: 0.5
+  groundDrag: 4
   jumpForce: 12
   jumpCooldown: 0.25
   airMultiplier: 0.4
-  groundDrag: 4
-  playerHeight: 2
-  maxSlopeAngle: 40
-  damage: 10
-  range: 100
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 1024
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  fpsCam: {fileID: 963194227}
-  orientation: {fileID: 1231071163}
+  crouchSpeed: 3.5
+  crouchYScale: 0.5
+  dashForce: 20
+  dashDuration: 0.5
+  dashKey: 118
+  dashCooldown: 10
   jumpKey: 32
   sprintKey: 304
   crouchKey: 306
-  grounded: 0
-  readyToJump: 0
-  exitingSlope: 0
+  playerHeight: 2
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 1024
+  maxSlopeAngle: 40
+  orientation: {fileID: 1231071163}
 --- !u!114 &1623225825
 MonoBehaviour:
   m_ObjectHideFlags: 0
