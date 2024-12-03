@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovementAdvanced : MonoBehaviour
 {
@@ -25,7 +27,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     [SerializeField] private float dashForce;
     [SerializeField] private float dashDuration;
     [SerializeField] private KeyCode dashKey = KeyCode.V;
-    [SerializeField] private float dashCooldown = 10f;
+    [SerializeField] private float dashCooldown = 9f;
     private bool readyToDash = true;
 
     [Header("Keybinds")]
@@ -49,6 +51,12 @@ public class PlayerMovementAdvanced : MonoBehaviour
     private Vector3 moveDirection;
     private Rigidbody rb;
 
+    [Header("UI Elements")]
+    [SerializeField] private GameObject dashCooldownPanel;
+    [SerializeField] private List<Image> cooldownBars;
+
+    private float dashCooldownTime = 10f;
+
     private MovementState state;
     public enum MovementState
     {
@@ -65,6 +73,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
         rb.freezeRotation = true;
         readyToJump = true;
         startYScale = transform.localScale.y;
+
+        dashCooldownPanel.SetActive(false);
     }
 
     private void Update()
@@ -236,6 +246,29 @@ public class PlayerMovementAdvanced : MonoBehaviour
         rb.velocity = Vector3.zero; // Stop current movement
         rb.AddForce(moveDirection.normalized * dashForce, ForceMode.VelocityChange);
         Invoke(nameof(StopDash), dashDuration);
+
+        // Показать панель перезарядки
+        StartCoroutine(ShowDashCooldown());
+    }
+
+    private IEnumerator ShowDashCooldown()
+    {
+        dashCooldownPanel.SetActive(true);
+
+        // Очищаем полоски
+        foreach (Image bar in cooldownBars)
+        {
+            bar.enabled = false;
+        }
+
+        // Включаем полоски по одной каждую секунду
+        for (int i = 0; i < cooldownBars.Count; i++)
+        {
+            cooldownBars[i].enabled = true;
+            yield return new WaitForSeconds(1f);
+        }
+
+        dashCooldownPanel.SetActive(false);
     }
 
     private void StopDash()
