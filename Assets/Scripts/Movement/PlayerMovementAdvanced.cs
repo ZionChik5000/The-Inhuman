@@ -27,7 +27,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     [SerializeField] private float dashForce;
     [SerializeField] private float dashDuration;
     [SerializeField] private KeyCode dashKey = KeyCode.V;
-    [SerializeField] private float dashCooldown = 9f;
+    [SerializeField] private float dashCooldown = 1.8f;
     private bool readyToDash = true;
 
     [Header("Keybinds")]
@@ -265,7 +265,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         for (int i = 0; i < cooldownBars.Count; i++)
         {
             cooldownBars[i].enabled = true;
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.2f);
         }
 
         dashCooldownPanel.SetActive(false);

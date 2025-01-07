@@ -1903,7 +1903,7 @@ MonoBehaviour:
   dashForce: 20
   dashDuration: 0.5
   dashKey: 118
-  dashCooldown: 9
+  dashCooldown: 1.8
   jumpKey: 32
   sprintKey: 304
   crouchKey: 306
