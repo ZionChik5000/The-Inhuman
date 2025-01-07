@@ -1,4 +1,4 @@
-Ôªøusing System.Collections;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
@@ -45,14 +45,14 @@ public class PlayerShooting : MonoBehaviour
             if (lineRenderer.material == null)
             {
                 lineRenderer.material = new Material(Shader.Find("Unlit/Transparent"));
-                lineRenderer.material.color = new Color(1f, 1f, 1f, 1f); // –ë–µ–ª—ã–π —Ü–≤–µ—Ç
+                lineRenderer.material.color = new Color(1f, 1f, 1f, 1f); // ¡ÂÎ˚È ˆ‚ÂÚ
             }
         }
     }
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1") && !isRecoiling)
+        if (Input.GetMouseButtonDown(0) && !isRecoiling)
         {
             Shoot();
         }
@@ -133,6 +133,9 @@ public class PlayerShooting : MonoBehaviour
 
         StartCoroutine(ReturnToOriginalRotation(recoilOffset));
     }
+
+
+
 
     private IEnumerator ReturnToOriginalRotation(float recoilOffset)
     {
