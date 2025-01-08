@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenuUI;
+    [SerializeField] private GameObject deathMenuUI;
+
 
     private bool isPaused = false;
 
@@ -26,6 +28,7 @@ public class PauseMenu : MonoBehaviour
     {
         ToggleChildObjects(gameObject, true);
         pauseMenuUI.SetActive(false);
+        deathMenuUI.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
         Cursor.lockState = CursorLockMode.Locked;
