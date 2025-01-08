@@ -55,8 +55,6 @@ public class PlayerMovementAdvanced : MonoBehaviour
     [SerializeField] private GameObject dashCooldownPanel;
     [SerializeField] private List<Image> cooldownBars;
 
-    private float dashCooldownTime = 10f;
-
     private MovementState state;
     public enum MovementState
     {
