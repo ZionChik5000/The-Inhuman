@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -14,13 +15,20 @@ public class HpController : MonoBehaviour
     private void Awake()
     {
         hpText.text = health.ToString();
+        deadscreen = FindObjectOfType<DeadScreen>();
+    }
+
+
+    private void Update()
+    {
+        TakeDamage(0.05f);
     }
 
     public void TakeDamage(float damage)
     {
         health -= damage;
-        hpText.text = health.ToString();
-        if (health >= 0f)
+        hpText.text = Math.Round(health).ToString();
+        if (health <= 0f)
         {
             deadscreen.Die();
         }
