@@ -286,4 +286,15 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     public bool IsGrounded() => grounded;
     public MovementState GetState() => state;
+
+    public void SetKeyBindings(KeyCode forward, KeyCode backward, KeyCode left, KeyCode right, KeyCode jump, KeyCode crouch, KeyCode dash)
+    {
+        // Обновляем клавиши действий
+        this.jumpKey = jump;
+        this.crouchKey = crouch;
+        this.dashKey = dash;
+
+        // Если используете встроенные Input.GetAxisRaw("Horizontal"), измените систему ввода для кастомных клавиш.
+    }
+
 }
