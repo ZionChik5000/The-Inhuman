@@ -21,7 +21,7 @@ public class HpController : MonoBehaviour
 
     private void Update()
     {
-        TakeDamage(0.05f);
+/*        TakeDamage(0.05f);*/
     }
 
     public void TakeDamage(float damage)

@@ -12,7 +12,7 @@ public class SettingsManager : MonoBehaviour
     public AudioSource soundSource;
 
     public Slider sensitivitySlider;
-    public float defaultSensitivity = 850f;
+    public float defaultSensitivity = 400f;
 
     public GameObject keyBindingPanel;
     public GameObject panelS;

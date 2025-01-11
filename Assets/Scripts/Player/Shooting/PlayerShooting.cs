@@ -45,7 +45,7 @@ public class PlayerShooting : MonoBehaviour
             if (lineRenderer.material == null)
             {
                 lineRenderer.material = new Material(Shader.Find("Unlit/Transparent"));
-                lineRenderer.material.color = new Color(1f, 1f, 1f, 1f); // Белый цвет
+                lineRenderer.material.color = new Color(1f, 1f, 1f, 1f);
             }
         }
     }
