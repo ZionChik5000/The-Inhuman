@@ -16,7 +16,7 @@ public abstract class WeaponBase : MonoBehaviour
     {
         if (fpsCam == null)
         {
-            Debug.LogError("FPS Camera is not assigned in PlayerShooting script.");
+            Debug.LogError("FPS Camera is not assigned in WeaponBase script.");
         }
 
         if (playerMovement == null)
@@ -66,7 +66,7 @@ public abstract class WeaponBase : MonoBehaviour
 
     public IEnumerator FadeLineRenderer()
     {
-        float fadeDuration = 1f;
+        float fadeDuration = 0.2f;
         float elapsedTime = 0f;
         GradientAlphaKey[] alphaKeys = new GradientAlphaKey[2];
         Gradient gradient = lineRenderer.colorGradient;

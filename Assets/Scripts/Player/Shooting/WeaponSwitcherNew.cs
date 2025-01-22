@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class WeaponSwitcherNew : MonoBehaviour
 {
-    public GameObject[] weaponPrefabs; // Префабы оружия
-    public Transform weaponHolder;    // Точка крепления оружия
-    public ParticleSystem switchEffect; // Эффект смены оружия
+    public GameObject[] weaponPrefabs;
+    public Transform weaponHolder;
+    public ParticleSystem switchEffect;
 
     private int currentWeaponIndex;
     private GameObject currentWeapon;
-    private WeaponBase currentWeaponScript; // Ссылка на скрипт текущего оружия
-    private float switchCooldown = 0.5f; // Задержка между переключениями
+    private WeaponBase currentWeaponScript;
+    private float switchCooldown = 0.5f;
     private float lastSwitchTime;
 
     void Start()
@@ -56,6 +56,7 @@ public class WeaponSwitcherNew : MonoBehaviour
 
         // Создаем новое оружие
         currentWeapon = Instantiate(weaponPrefabs[index], weaponHolder);
+        currentWeapon.gameObject.SetActive(true);
         currentWeapon.transform.localPosition = Vector3.zero;
         currentWeapon.transform.localRotation = Quaternion.identity;
 
