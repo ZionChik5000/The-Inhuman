@@ -12,12 +12,29 @@ public class Pistol : WeaponBase
 
     private bool isRecoiling = false;
     private float currentRecoilAngle = 0f;
+    private bool isShooting;
+
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0) && !isRecoiling)
         {
+            isShooting = true;
+            StartCoroutine(AutoFire());
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            isShooting = false;
+        }
+    }
+
+    private IEnumerator AutoFire()
+    {
+        while (isShooting)
+        {
             Shoot();
+            yield return new WaitForSeconds(1f);
         }
     }
 

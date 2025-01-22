@@ -5,7 +5,7 @@ public abstract class WeaponBase : MonoBehaviour
 {
     [Header("Shooting Settings")]
     [SerializeField] public float damage = 10f;
-    [SerializeField] public float range = 100f;
+    [SerializeField] public float range = 500f;
     [SerializeField] public Camera fpsCam;
     [SerializeField] public LayerMask enemyLayer;
     [SerializeField] private PlayerMovementAdvanced playerMovement;
@@ -16,7 +16,7 @@ public abstract class WeaponBase : MonoBehaviour
     {
         if (fpsCam == null)
         {
-            Debug.LogError("FPS Camera is not assigned in PlayerShooting script.");
+            Debug.LogError("FPS Camera is not assigned in WeaponBase script.");
         }
 
         if (playerMovement == null)
@@ -66,7 +66,7 @@ public abstract class WeaponBase : MonoBehaviour
 
     public IEnumerator FadeLineRenderer()
     {
-        float fadeDuration = 1f;
+        float fadeDuration = 0.2f;
         float elapsedTime = 0f;
         GradientAlphaKey[] alphaKeys = new GradientAlphaKey[2];
         Gradient gradient = lineRenderer.colorGradient;

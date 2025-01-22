@@ -3,8 +3,11 @@ using UnityEngine;
 
 public class Rifle : WeaponBase
 {
-    [SerializeField] private float fireRate = 0.2f; 
-    [SerializeField] private float maxSpreadAngle = 8f; 
+    [SerializeField] private float fireRate = 0.2f;
+    [SerializeField] private float maxSpreadAngle = 15f;
+    [SerializeField] private float recoilShakeIntensity = 0.1f;
+    [SerializeField] private float recoilShakeDuration = 0.1f;
+
     private bool isShooting;
 
     private void Update()
@@ -56,6 +59,8 @@ public class Rifle : WeaponBase
         }
 
         StartCoroutine(FadeLineRenderer());
+
+        StartCoroutine(ShakeCamera());
     }
 
     private Vector3 ApplySpread(Vector3 direction)
@@ -65,5 +70,24 @@ public class Rifle : WeaponBase
 
         Quaternion spreadRotation = Quaternion.Euler(randomPitch, randomYaw, 0);
         return spreadRotation * direction;
+    }
+
+    private IEnumerator ShakeCamera()
+    {
+        Vector3 originalPosition = fpsCam.transform.localPosition;
+        float elapsedTime = 0;
+
+        while (elapsedTime < recoilShakeDuration)
+        {
+            float offsetX = Random.Range(-1f, 1f) * recoilShakeIntensity;
+            float offsetY = Random.Range(-1f, 1f) * recoilShakeIntensity;
+
+            fpsCam.transform.localPosition = new Vector3(originalPosition.x + offsetX, originalPosition.y + offsetY, originalPosition.z);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        fpsCam.transform.localPosition = originalPosition;
     }
 }
