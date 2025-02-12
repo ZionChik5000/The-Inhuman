@@ -68,6 +68,7 @@ public class Enemy : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRadius = true;
+            Debug.Log("player in radius");
         }
     }
 
@@ -76,6 +77,7 @@ public class Enemy : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRadius = false;
+            Debug.Log("player out of radius");
         }
     }
 

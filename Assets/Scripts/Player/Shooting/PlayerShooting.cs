@@ -9,8 +9,6 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private Camera fpsCam;
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private PlayerMovementAdvanced playerMovement;
-    [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private float lineWidth = 0.1f;
 
     [Header("Recoil Settings")]
     [SerializeField] private float recoilAngle = 2f;
@@ -32,22 +30,6 @@ public class PlayerShooting : MonoBehaviour
         {
             Debug.LogError("Player Movement component is not assigned in PlayerShooting script.");
         }
-
-        if (lineRenderer == null)
-        {
-            Debug.LogError("LineRenderer is not assigned in PlayerShooting script.");
-        }
-        else
-        {
-            lineRenderer.enabled = false;
-            lineRenderer.widthMultiplier = lineWidth;
-
-            if (lineRenderer.material == null)
-            {
-                lineRenderer.material = new Material(Shader.Find("Unlit/Transparent"));
-                lineRenderer.material.color = new Color(1f, 1f, 1f, 1f); // Белый цвет
-            }
-        }
     }
 
     private void Update()
@@ -66,22 +48,13 @@ public class PlayerShooting : MonoBehaviour
             return;
         }
 
-        lineRenderer.enabled = true;
-        lineRenderer.SetPosition(0, fpsCam.transform.position);
-
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out RaycastHit hit, range, enemyLayer))
         {
             Debug.Log($"Hit: {hit.transform.name}");
             ProcessShot(hit);
-            lineRenderer.SetPosition(1, hit.point);
-        }
-        else
-        {
-            lineRenderer.SetPosition(1, fpsCam.transform.position + fpsCam.transform.forward * range);
         }
 
         StartRecoil();
-        StartCoroutine(FadeLineRenderer());
     }
 
     private void ProcessShot(RaycastHit hit)
@@ -134,9 +107,6 @@ public class PlayerShooting : MonoBehaviour
         StartCoroutine(ReturnToOriginalRotation(recoilOffset));
     }
 
-
-
-
     private IEnumerator ReturnToOriginalRotation(float recoilOffset)
     {
         float elapsedTime = 0f;
@@ -156,33 +126,5 @@ public class PlayerShooting : MonoBehaviour
         }
 
         isRecoiling = false;
-    }
-
-    private IEnumerator FadeLineRenderer()
-    {
-        float fadeDuration = 1f;
-        float elapsedTime = 0f;
-        GradientAlphaKey[] alphaKeys = new GradientAlphaKey[2];
-        Gradient gradient = lineRenderer.colorGradient;
-
-        GradientAlphaKey[] initialAlphaKeys = gradient.alphaKeys;
-
-        while (elapsedTime < fadeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
-
-            for (int i = 0; i < alphaKeys.Length; i++)
-            {
-                alphaKeys[i] = new GradientAlphaKey(alpha, initialAlphaKeys[i].time);
-            }
-
-            gradient.SetKeys(gradient.colorKeys, alphaKeys);
-            lineRenderer.colorGradient = gradient;
-
-            yield return null;
-        }
-
-        lineRenderer.enabled = false;
     }
 }

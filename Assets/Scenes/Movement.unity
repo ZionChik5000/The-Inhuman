@@ -897,7 +897,7 @@ GameObject:
   - component: {fileID: 476418631}
   m_Layer: 6
   m_Name: PlayerObj
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -984,7 +984,7 @@ Transform:
   m_GameObject: {fileID: 476418630}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.99, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3192,6 +3192,7 @@ GameObject:
   - component: {fileID: 1623225823}
   - component: {fileID: 1623225824}
   - component: {fileID: 1623225825}
+  - component: {fileID: 1623225829}
   - component: {fileID: 1623225826}
   - component: {fileID: 1623225827}
   - component: {fileID: 1623225828}
@@ -3211,7 +3212,7 @@ Transform:
   m_GameObject: {fileID: 1623225821}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3310,8 +3311,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   playerMovement: {fileID: 1623225824}
-  lineRenderer: {fileID: 1623225826}
-  lineWidth: 0.1
   recoilAngle: 2
   recoilDuration: 0.1
   recoilReturnDuration: 0.2
@@ -3413,7 +3412,7 @@ LineRenderer:
     numCapVertices: 0
     alignment: 0
     textureMode: 0
-    textureScale: {x: 1, y: 1}
+    textureScale: {x: 0.4, y: 0.4}
     shadowBias: 0.5
     generateLightingData: 0
   m_MaskInteraction: 0
@@ -3451,6 +3450,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   hpText: {fileID: 1391903713}
+--- !u!114 &1623225829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623225821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a68f66e6974512b4f95377ecd7b12e42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lineRenderer: {fileID: 1623225826}
+  fpsCam: {fileID: 963194227}
+  range: 150
+  fadeSpeed: 0.3
+  lineWidth: 0.1
 --- !u!1 &1649376671
 GameObject:
   m_ObjectHideFlags: 0
@@ -3640,7 +3656,7 @@ Transform:
   m_GameObject: {fileID: 1753544474}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.799835, y: -32.491653, z: 22.955643}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4855,17 +4871,17 @@ PrefabInstance:
     - target: {fileID: 5539241407454081844, guid: ad99d149aa7511a48a96b2947497dee4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -28.879835
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5539241407454081844, guid: ad99d149aa7511a48a96b2947497dee4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 34.91165
+      value: 1.475
       objectReference: {fileID: 0}
     - target: {fileID: 5539241407454081844, guid: ad99d149aa7511a48a96b2947497dee4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -13.285643
+      value: 7.49
       objectReference: {fileID: 0}
     - target: {fileID: 5539241407454081844, guid: ad99d149aa7511a48a96b2947497dee4,
         type: 3}
