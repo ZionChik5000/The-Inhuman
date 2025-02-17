@@ -1,16 +1,19 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public abstract class WeaponBase : MonoBehaviour
 {
     [Header("Shooting Settings")]
-    [SerializeField] public float damage = 10f;
-    [SerializeField] public float range = 500f;
-    [SerializeField] public Camera fpsCam;
-    [SerializeField] public LayerMask enemyLayer;
-    [SerializeField] private PlayerMovementAdvanced playerMovement;
-    [SerializeField] public LineRenderer lineRenderer;
-    [SerializeField] public float lineWidth = 0.1f;
+    [SerializeField] private float damage = 10f;
+    [SerializeField] protected float range = 500f;
+    [SerializeField] protected LayerMask enemyLayer;
+
+    protected Camera fpsCam;
+    private PlayerMovementAdvanced playerMovement;
+    protected LineRenderer lineRenderer;
+
+    [SerializeField] private float lineWidth = 0.1f;
 
     private void Awake()
     {
@@ -24,10 +27,10 @@ public abstract class WeaponBase : MonoBehaviour
             Debug.LogError("Player Movement component is not assigned in PlayerShooting script.");
         }
 
-        if (lineRenderer == null)
+        /*if (lineRenderer == null)
         {
             Debug.LogError("LineRenderer is not assigned in PlayerShooting script.");
-        }
+        }*/
         else
         {
             lineRenderer.enabled = false;
@@ -90,5 +93,12 @@ public abstract class WeaponBase : MonoBehaviour
         }
 
         lineRenderer.enabled = false;
+    }
+
+    public void Initialize(Camera fpsCam, LineRenderer lineRenderer, PlayerMovementAdvanced playerMovement)
+    {
+        this.fpsCam = fpsCam;
+        this.lineRenderer = lineRenderer;
+        this.playerMovement = playerMovement;
     }
 }

@@ -69,12 +69,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   range: 100
-  fpsCam: {fileID: 0}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
-  playerMovement: {fileID: 0}
-  lineRenderer: {fileID: 0}
   lineWidth: 0.1
   pellets: 12
   spreadAngle: 20
@@ -82,6 +79,11 @@ MonoBehaviour:
   recoilDuration: 0.1
   recoilReturnDuration: 0.9
   maxRecoilAngle: 10
+  lineRendererPrefab: {fileID: 1603944259831833671, guid: f4528a067a4df0747968483598f4c04c,
+    type: 3}
+  poolSize: 20
+  fireRate: 0.5
+  Marmo3: {fileID: 0}
 --- !u!1 &5231502485476115826
 GameObject:
   m_ObjectHideFlags: 0

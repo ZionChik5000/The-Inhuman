@@ -1,76 +1,79 @@
 using System.Collections;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 
-public class Grenade : MonoBehaviour
+public class GrenadeWeapon : WeaponBase
 {
-    [Header("Throw Settings")]
-    public float throwForce = 15f; 
-    public float upForce = 5f;     
+    [Header("Grenade Settings")]
+    [SerializeField] private GameObject grenadePrefab;
+    [SerializeField] private float throwForce = 15f;
+    [SerializeField] private float explosionRadius = 5f;
+    [SerializeField] private float explosionDamage = 50f;
+    [SerializeField] private float fuseTime = 3f;
 
-    [Header("Explosion Settings")]
-    public float explosionDelay = 3f; 
-    public float explosionRadius = 5f; 
-    public float explosionForce = 700f; 
-    public GameObject explosionEffect; 
+    private GameObject heldGrenade;
 
-    private Rigidbody rb;
-    private bool hasExploded = false;
+    public Transform handPosition;
 
-    void Start()
+    private void Update()
     {
-        rb = GetComponent<Rigidbody>();
-
-        Vector3 throwDirection = Camera.main.transform.forward + Vector3.up * upForce;
-        rb.AddForce(throwDirection.normalized * throwForce, ForceMode.Impulse);
-
-        StartCoroutine(ExplosionCountdown());
-    }
-
-    private IEnumerator ExplosionCountdown()
-    {
-        yield return new WaitForSeconds(explosionDelay);
-        Explode();
-    }
-
-    private void Explode()
-    {
-
-        if (hasExploded) return;
-        hasExploded = true;
-
-        if (explosionEffect != null)
+        if (Input.GetMouseButtonDown(0))
         {
-            Instantiate(explosionEffect, transform.position, Quaternion.identity);
+            Shoot();
+        }
+    }
+
+    private void SpawnHeldGrenade()
+    {
+        if (heldGrenade == null)
+        {
+            heldGrenade = Instantiate(grenadePrefab, handPosition.position, handPosition.rotation, handPosition);
+            Destroy(heldGrenade.GetComponent<Rigidbody>());
+        }
+    }
+
+    public override void Shoot()
+    { 
+        if (heldGrenade == null) Debug.Log("Gooool");
+
+        GameObject thrownGrenade = Instantiate(grenadePrefab, heldGrenade.transform.position, heldGrenade.transform.rotation);
+        Rigidbody rb = thrownGrenade.GetComponent<Rigidbody>();
+
+        if (rb != null)
+        {
+            rb.AddForce(fpsCam.transform.forward * throwForce, ForceMode.VelocityChange);
         }
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+        Destroy(heldGrenade);
+        StartCoroutine(ExplodeAfterDelay(thrownGrenade));
+        SpawnHeldGrenade();
+    }
 
-        foreach (Collider nearbyObject in colliders)
+    private IEnumerator ExplodeAfterDelay(GameObject grenade)
+    {
+        yield return new WaitForSeconds(fuseTime);
+        Explode(grenade);
+    }
+
+    private void Explode(GameObject grenade)
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(grenade.transform.position, explosionRadius);
+
+        foreach (Collider hit in hitColliders)
         {
-            // Применяем взрывную силу к объектам с Rigidbody
-            Rigidbody nearbyRb = nearbyObject.GetComponent<Rigidbody>();
-            if (nearbyRb != null)
+            if (hit.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                nearbyRb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
-            }
-
-            // Наносим урон, если объект имеет компонент здоровья
-            var health = nearbyObject.GetComponent<Enemy>();
-            if (health != null)
-            {
-                health.TakeDamage(50); // Урон от гранаты
+                if (hit.TryGetComponent(out Enemy enemy))
+                {
+                    enemy.TakeDamage(explosionDamage);
+                }
             }
         }
 
-        // Уничтожаем гранату
-        Destroy(gameObject);
+        Destroy(grenade);
     }
 
-    private void OnDrawGizmosSelected()
+    public void Initialize(Transform handPosition)
     {
-        // Отображаем радиус взрыва в редакторе
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, explosionRadius);
+        this.handPosition = handPosition;
     }
 }

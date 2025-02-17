@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class WeaponSwitcherNew : MonoBehaviour
 {
-    public GameObject[] weaponPrefabs;
+    [SerializeField] protected Camera fpsCam;
+    [SerializeField] private PlayerMovementAdvanced playerMovement;
+    [SerializeField] protected LineRenderer lineRenderer;
+
+    public WeaponBase[] weaponPrefabs;
     public Transform weaponHolder;
     public ParticleSystem switchEffect;
 
@@ -55,13 +59,12 @@ public class WeaponSwitcherNew : MonoBehaviour
         }
 
         // Создаем новое оружие
-        currentWeapon = Instantiate(weaponPrefabs[index], weaponHolder);
+        currentWeaponScript = Instantiate(weaponPrefabs[index], weaponHolder);
+        currentWeaponScript.Initialize(fpsCam, lineRenderer, playerMovement);
+        currentWeapon = currentWeaponScript.gameObject;
         currentWeapon.gameObject.SetActive(true);
         currentWeapon.transform.localPosition = Vector3.zero;
         currentWeapon.transform.localRotation = Quaternion.identity;
-
-        // Получаем ссылку на скрипт оружия
-        currentWeaponScript = currentWeapon.GetComponent<WeaponBase>();
 
         PlayerPrefs.SetInt("CurrentWeaponIndex", index);
         PlayerPrefs.Save();
