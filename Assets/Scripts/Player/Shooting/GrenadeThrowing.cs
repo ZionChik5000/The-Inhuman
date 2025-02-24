@@ -5,15 +5,12 @@ public class GrenadeWeapon : WeaponBase
 {
     [Header("Grenade Settings")]
     [SerializeField] private GameObject grenadePrefab;
-    [SerializeField] private float throwForce = 15f;
+    [SerializeField] private float throwForce = 500f;
     [SerializeField] private float explosionRadius = 5f;
     [SerializeField] private float explosionDamage = 50f;
     [SerializeField] private float fuseTime = 3f;
 
-    private GameObject heldGrenade;
-
-    public Transform handPosition;
-
+    [SerializeField] private GameObject heldGrenade;
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -26,12 +23,11 @@ public class GrenadeWeapon : WeaponBase
     {
         if (heldGrenade == null)
         {
-            heldGrenade = Instantiate(grenadePrefab, handPosition.position, handPosition.rotation, handPosition);
-            Destroy(heldGrenade.GetComponent<Rigidbody>());
+            heldGrenade = Instantiate(heldGrenade, _handPosition.position, _handPosition.rotation, _handPosition);
         }
     }
 
-    public override void Shoot()
+    public override async void Shoot()
     { 
         if (heldGrenade == null) Debug.Log("Gooool");
 
@@ -44,18 +40,20 @@ public class GrenadeWeapon : WeaponBase
         }
 
         Destroy(heldGrenade);
-        StartCoroutine(ExplodeAfterDelay(thrownGrenade));
-        SpawnHeldGrenade();
+        await StartCoroutine(Delay());
+        await Explode(thrownGrenade);
+        await SpawnHeldGrenade();
     }
 
-    private IEnumerator ExplodeAfterDelay(GameObject grenade)
+    private IEnumerator Delay()
     {
         yield return new WaitForSeconds(fuseTime);
-        Explode(grenade);
     }
 
     private void Explode(GameObject grenade)
     {
+        Debug.Log("Goida");
+
         Collider[] hitColliders = Physics.OverlapSphere(grenade.transform.position, explosionRadius);
 
         foreach (Collider hit in hitColliders)
@@ -70,10 +68,5 @@ public class GrenadeWeapon : WeaponBase
         }
 
         Destroy(grenade);
-    }
-
-    public void Initialize(Transform handPosition)
-    {
-        this.handPosition = handPosition;
     }
 }

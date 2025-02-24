@@ -6,6 +6,7 @@ public class WeaponSwitcherNew : MonoBehaviour
     [SerializeField] private PlayerMovementAdvanced playerMovement;
     [SerializeField] protected LineRenderer lineRenderer;
 
+
     public WeaponBase[] weaponPrefabs;
     public Transform weaponHolder;
     public ParticleSystem switchEffect;
@@ -60,7 +61,7 @@ public class WeaponSwitcherNew : MonoBehaviour
 
         // Создаем новое оружие
         currentWeaponScript = Instantiate(weaponPrefabs[index], weaponHolder);
-        currentWeaponScript.Initialize(fpsCam, lineRenderer, playerMovement);
+        currentWeaponScript.Initialize(fpsCam, lineRenderer, playerMovement, weaponHolder);
         currentWeapon = currentWeaponScript.gameObject;
         currentWeapon.gameObject.SetActive(true);
         currentWeapon.transform.localPosition = Vector3.zero;

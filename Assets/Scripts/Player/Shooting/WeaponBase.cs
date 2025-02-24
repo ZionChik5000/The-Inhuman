@@ -12,37 +12,10 @@ public abstract class WeaponBase : MonoBehaviour
     protected Camera fpsCam;
     private PlayerMovementAdvanced playerMovement;
     protected LineRenderer lineRenderer;
+    protected Transform _handPosition;
 
     [SerializeField] private float lineWidth = 0.1f;
 
-    private void Awake()
-    {
-        if (fpsCam == null)
-        {
-            Debug.LogError("FPS Camera is not assigned in WeaponBase script.");
-        }
-
-        if (playerMovement == null)
-        {
-            Debug.LogError("Player Movement component is not assigned in PlayerShooting script.");
-        }
-
-        /*if (lineRenderer == null)
-        {
-            Debug.LogError("LineRenderer is not assigned in PlayerShooting script.");
-        }*/
-        else
-        {
-            lineRenderer.enabled = false;
-            lineRenderer.widthMultiplier = lineWidth;
-
-            if (lineRenderer.material == null)
-            {
-                lineRenderer.material = new Material(Shader.Find("Unlit/Transparent"));
-                lineRenderer.material.color = new Color(1f, 1f, 1f, 1f);
-            }
-        }
-    }
 
     public abstract void Shoot();
 
@@ -95,10 +68,37 @@ public abstract class WeaponBase : MonoBehaviour
         lineRenderer.enabled = false;
     }
 
-    public void Initialize(Camera fpsCam, LineRenderer lineRenderer, PlayerMovementAdvanced playerMovement)
+    public void Initialize(Camera fpsCam, LineRenderer lineRenderer, PlayerMovementAdvanced playerMovement, Transform handPosition)
     {
         this.fpsCam = fpsCam;
         this.lineRenderer = lineRenderer;
         this.playerMovement = playerMovement;
+        _handPosition = handPosition;
+
+        if (fpsCam == null)
+        {
+            Debug.LogError("FPS Camera is not assigned in WeaponBase script.");
+        }
+
+        if (playerMovement == null)
+        {
+            Debug.LogError("Player Movement component is not assigned in PlayerShooting script.");
+        }
+
+        if (lineRenderer == null)
+        {
+            Debug.LogError("LineRenderer is not assigned in PlayerShooting script.");
+        }
+        else
+        {
+            lineRenderer.enabled = false;
+            lineRenderer.widthMultiplier = lineWidth;
+
+            if (lineRenderer.material == null)
+            {
+                lineRenderer.material = new Material(Shader.Find("Unlit/Transparent"));
+                lineRenderer.material.color = new Color(1f, 1f, 1f, 1f);
+            }
+        }
     }
 }
