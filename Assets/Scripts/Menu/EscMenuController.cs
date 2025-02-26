@@ -5,9 +5,15 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private GameObject deathMenuUI;
-
-
     private bool isPaused = false;
+
+    private void Start()
+    {
+        Time.timeScale = 1f;
+        isPaused = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
 
     private void Update()
     {

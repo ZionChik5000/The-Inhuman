@@ -14,6 +14,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float health = 50f;
     //[SerializeField] private float damage = 10f;
 
+    [Header("AI Settings")]
+    [SerializeField] private float pathUpdateInterval = 0.2f;
+    private float pathUpdateTimer = 0f;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -36,13 +40,16 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        pathUpdateTimer += Time.deltaTime;
+
         if (!playerInRadius)
         {
             Patrol();
         }
-        else if (player != null)
+        else if (player != null && pathUpdateTimer >= pathUpdateInterval)
         {
             FollowPlayer();
+            pathUpdateTimer = 0f;
         }
     }
 
@@ -57,9 +64,12 @@ public class Enemy : MonoBehaviour
 
     private void FollowPlayer()
     {
-        if (player != null)
+        if (player != null && agent.isActiveAndEnabled)
         {
-            agent.SetDestination(player.position);
+            if (agent.pathStatus == NavMeshPathStatus.PathComplete || agent.pathStatus == NavMeshPathStatus.PathPartial)
+            {
+                agent.SetDestination(player.position);
+            }
         }
     }
 
