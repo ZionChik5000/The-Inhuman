@@ -195,3 +195,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waypoints: []
   health: 50
+  pathUpdateInterval: 0.2

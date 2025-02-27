@@ -183,7 +183,7 @@ public class SettingsManager : MonoBehaviour
 
     public void BackToMenu()
     {
-        SceneManager.LoadScene("MenuScene");
+        SceneManager.UnloadSceneAsync("Settings");
     }
 
 /*    private void DebugKeyBindings()

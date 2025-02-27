@@ -9,46 +9,43 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
-        Time.timeScale = 1f;
-        isPaused = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        InitializeMenu();
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused)
-            {
-                ResumeGame();
-            }
-            else
-            {
-                PauseGame();
-            }
+            TogglePause();
         }
     }
 
-    public void ResumeGame()
-    {
-        ToggleChildObjects(gameObject, true);
-        pauseMenuUI.SetActive(false);
-        deathMenuUI.SetActive(false);
-        Time.timeScale = 1f;
-        isPaused = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
-
-    private void PauseGame()
+    private void InitializeMenu()
     {
         ToggleChildObjects(gameObject, false);
-        pauseMenuUI.SetActive(true);
-        Time.timeScale = 0f;
-        isPaused = true;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        pauseMenuUI.SetActive(false);
+        deathMenuUI.SetActive(false);
+        SetPauseState(false);
+    }
+
+    private void TogglePause()
+    {
+        isPaused = !isPaused;
+        pauseMenuUI.SetActive(isPaused);
+        ToggleChildObjects(gameObject, !isPaused);
+        SetPauseState(isPaused);
+    }
+
+    private void SetPauseState(bool state)
+    {
+        Time.timeScale = state ? 0f : 1f;
+        Cursor.lockState = state ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = state;
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void ToggleChildObjects(GameObject parent, bool state)
@@ -64,7 +61,7 @@ public class PauseMenu : MonoBehaviour
 
     public void OpenSettings()
     {
-        SceneManager.LoadScene("SettingsScene");
+        SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
     }
 
     public void ExitGame()
