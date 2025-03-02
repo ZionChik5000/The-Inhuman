@@ -3,9 +3,14 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    [Header("Modification")]
-    [SerializeField] private EnemyMod activeMod;
+    private EnemyMod[] activeMods;
 
+    [Header("Enemy Settings")]
+    [SerializeField] private float health = 50f;
+    [SerializeField] private float damage = 5f;
+    [SerializeField] private float attackCooldownS = 2f;
+    [SerializeField] private float detectionRadius = 5f;
+    private SphereCollider sphereCollider;
 
     [Header("Navigation")]
     [SerializeField] private Transform[] waypoints;
@@ -13,15 +18,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float acceleration = 8f;
     [SerializeField] private float angularSpeed = 120f;
     [SerializeField] private bool autoBraking = false;
-
     private NavMeshAgent agent;
     private int currentWaypointIndex = 0;
     private bool playerInRadius = false;
     private Transform player;
-
-    [Header("Enemy Settings")]
-    [SerializeField] private float health = 50f;
-    [SerializeField] private float damage = 5f;
 
     [Header("AI Settings")]
     [SerializeField] private float pathUpdateInterval = 0.2f;
@@ -35,50 +35,49 @@ public class Enemy : MonoBehaviour
             Debug.LogWarning("NavMeshAgent component not found!");
             return;
         }
-        else
-        {
-            agent.speed = speed;
-            agent.acceleration = acceleration;
-            agent.angularSpeed = angularSpeed;
-            agent.autoBraking = autoBraking;
-        }
+
+        agent.speed = speed;
+        agent.acceleration = acceleration;
+        agent.angularSpeed = angularSpeed;
+        agent.autoBraking = autoBraking;
 
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-        if (playerObject != null)
-        {
-            player = playerObject.transform;
-        }
-        else
-        {
-            Debug.LogWarning("Player object not found. Ensure the player has the tag 'Player'.");
-        }
+        if (playerObject != null) player = playerObject.transform;
 
         if (waypoints.Length > 0)
         {
             agent.SetDestination(waypoints[currentWaypointIndex].position);
         }
 
-        ModStart();
+        sphereCollider = GetComponent<SphereCollider>();
+        sphereCollider.radius = detectionRadius;
+
+        //Mod loader
+        activeMods = GetComponents<EnemyMod>();
+        foreach (var mod in activeMods)
+        {
+            mod.Apply(this);
+        }
     }
 
     protected void Update()
     {
         pathUpdateTimer += Time.deltaTime;
 
-        if (!playerInRadius)
+        if (playerInRadius && player != null && pathUpdateTimer >= pathUpdateInterval)
+        {
+            agent.SetDestination(player.position);
+            pathUpdateTimer = 0f;
+        }
+        else if (!playerInRadius)
         {
             Patrol();
         }
-        else if (playerInRadius && player != null && pathUpdateTimer >= pathUpdateInterval)
-        {
-            FollowPlayer();
-            pathUpdateTimer = 0f;
-        }
 
-        ModUpdate();
+        foreach (var mod in activeMods) mod.ModUpdate(this);
     }
 
-    protected virtual void Patrol()
+    private void Patrol()
     {
         if (waypoints.Length == 0) return;
 
@@ -89,56 +88,26 @@ public class Enemy : MonoBehaviour
         }
     }
 
-
-    protected virtual void FollowPlayer()
+    private void OnTriggerEnter(Collider other)
     {
-        if (player != null && agent.isActiveAndEnabled)
+        if (other.CompareTag("Player"))
         {
-            agent.SetDestination(player.position);
+            playerInRadius = true;
         }
     }
 
-    protected virtual void Attack()
+    private void OnTriggerExit(Collider other)
     {
-        //Work in progress...
+        if (other.CompareTag("Player"))
+        {
+            playerInRadius = false;
+        }
     }
-
-    private void OnTriggerEnter(Collider other)
-{
-    if (other.CompareTag("Player"))
-    {
-        playerInRadius = true;
-        Debug.Log("Player in radius");
-    }
-}
-
-private void OnTriggerExit(Collider other)
-{
-    if (other.CompareTag("Player"))
-    {
-        playerInRadius = false;
-        Debug.Log("Player is NOT in radius");
-    }
-}
-
 
     public virtual void TakeDamage(float amount)
     {
         health -= amount;
-        Debug.Log($"Enemy took damage: {amount}. Current health: {health}");
-        if (health <= 0f)
-        {
-            Die();
-        }
-        else
-        {
-            OnDamageTaken();
-        }
-    }
-
-    protected virtual void OnDamageTaken()
-    {
-        Debug.Log("Enemy took damage but is still alive.");
+        if (health <= 0f) Die();
     }
 
     protected virtual void Die()
@@ -147,56 +116,6 @@ private void OnTriggerExit(Collider other)
         Destroy(gameObject);
     }
 
-    // ------------------   MODS SECTION   --------------------------------
-    //DO NOT CHANGE HERE ANYTHING!!
-
-    public virtual void ModStart()
-    {
-        if (activeMod != null)
-        {
-            activeMod.Apply(this);
-        }
-    }
-
-    public virtual void ModUpdate()
-    {
-        if (activeMod != null)
-        {
-            activeMod.ModUpdate(this);
-        }
-    }
-
-
-
-
-    public void SetHealth(float newHealth) => health = newHealth;
-    public void SetDamage(float newDamage) => damage = newDamage;
-    public void SetSpeed(float newSpeed)
-    {
-        speed = newSpeed;
-        if (agent != null) agent.speed = speed;
-    }
-    public void SetAcceleration(float newAcceleration)
-    {
-        acceleration = newAcceleration;
-        if (agent != null) agent.acceleration = acceleration;
-    }
-    public void SetAngularSpeed(float newAngularSpeed)
-    {
-        angularSpeed = newAngularSpeed;
-        if (agent != null) agent.angularSpeed = angularSpeed;
-    }
-    public void SetAutoBraking(bool newAutoBraking)
-    {
-        autoBraking = newAutoBraking;
-        if (agent != null) agent.autoBraking = autoBraking;
-    }
-
-    public float GetHealth() => health;
     public float GetDamage() => damage;
-    public float GetSpeed() => speed;
-    public float GetAcceleration() => acceleration;
-    public float GetAngularSpeed() => angularSpeed;
-    public bool GetAutoBraking() => autoBraking;
-
+    public float GetAttackCooldownS() => attackCooldownS;
 }

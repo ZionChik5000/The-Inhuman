@@ -48,11 +48,20 @@ public class PlayerShooting : MonoBehaviour
             return;
         }
 
-        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out RaycastHit hit, range, enemyLayer))
+        RaycastHit[] hits = Physics.RaycastAll(fpsCam.transform.position, fpsCam.transform.forward, range, enemyLayer);
+
+        bool damageDealt = false;
+        foreach (RaycastHit hit in hits)
         {
-            Debug.Log($"Hit: {hit.transform.name}");
-            ProcessShot(hit);
+            if (!hit.collider.isTrigger)
+            {
+                ProcessShot(hit);
+                damageDealt = true;
+                break;
+            }
         }
+
+        if (!damageDealt) Debug.Log("No valid enemy hit.");
 
         StartRecoil();
     }
@@ -62,7 +71,6 @@ public class PlayerShooting : MonoBehaviour
         Enemy enemy = hit.transform.GetComponent<Enemy>();
         if (enemy != null)
         {
-            Debug.Log("Enemy hit, processing damage.");
             float finalDamage = CalculateDamage();
             enemy.TakeDamage(finalDamage);
         }
@@ -71,6 +79,8 @@ public class PlayerShooting : MonoBehaviour
             Debug.Log("Hit object is not an enemy.");
         }
     }
+
+
 
     private float CalculateDamage()
     {

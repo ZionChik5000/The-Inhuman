@@ -18,12 +18,6 @@ public class HpController : MonoBehaviour
         deadscreen = FindObjectOfType<DeadScreen>();
     }
 
-
-    private void Update()
-    {
-        TakeDamage(0.0075f);
-    }
-
     public void TakeDamage(float damage)
     {
         health -= damage;

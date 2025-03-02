@@ -16,13 +16,20 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            TogglePause();
+            if (isPaused)
+            {
+                Resume();
+            }
+            else
+            {
+                TogglePause();
+            }
         }
     }
 
     private void InitializeMenu()
     {
-        ToggleChildObjects(gameObject, false);
+        ToggleChildObjects(gameObject, true);
         pauseMenuUI.SetActive(false);
         deathMenuUI.SetActive(false);
         SetPauseState(false);
@@ -33,6 +40,15 @@ public class PauseMenu : MonoBehaviour
         isPaused = !isPaused;
         pauseMenuUI.SetActive(isPaused);
         ToggleChildObjects(gameObject, !isPaused);
+        SetPauseState(isPaused);
+    }
+
+    public void Resume()
+    {
+        isPaused = false;
+        ToggleChildObjects(gameObject, true);
+        pauseMenuUI.SetActive(false);
+        deathMenuUI.SetActive(false);
         SetPauseState(isPaused);
     }
 

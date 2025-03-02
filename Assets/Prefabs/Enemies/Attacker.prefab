@@ -16,8 +16,9 @@ GameObject:
   - component: {fileID: 6247463259751610391}
   - component: {fileID: 6970770908396791064}
   - component: {fileID: 1261431515151237099}
+  - component: {fileID: 6662136617908474693}
   m_Layer: 3
-  m_Name: Enemy
+  m_Name: Attacker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 561efe297e7a31043babb4ff3b98b79d, type: 2}
+  - {fileID: 2100000, guid: d11640b97faa8894ab3ccb60a0fe8b7b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -130,7 +131,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 5
+  m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &6247463259751610391
 Rigidbody:
@@ -196,10 +197,22 @@ MonoBehaviour:
   health: 50
   damage: 5
   attackCooldownS: 2
-  detectionRadius: 5
+  detectionRadius: 3
   waypoints: []
-  speed: 4
-  acceleration: 4
+  speed: 4.5
+  acceleration: 4.5
   angularSpeed: 180
   autoBraking: 1
   pathUpdateInterval: 0.2
+--- !u!114 &6662136617908474693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049669423236696451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a371f4ef547b9dc4899a2e1c88651c7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
