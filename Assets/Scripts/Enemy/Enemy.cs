@@ -6,26 +6,26 @@ public class Enemy : MonoBehaviour
     private EnemyMod[] activeMods;
 
     [Header("Enemy Settings")]
-    [SerializeField] private float health = 50f;
-    [SerializeField] private float damage = 5f;
-    [SerializeField] private float attackCooldownS = 2f;
-    [SerializeField] private float detectionRadius = 5f;
+    [SerializeField] public float health = 50f;
+    [SerializeField] public float damage = 5f;
+    [SerializeField] public float attackCooldownS = 2f;
+    [SerializeField] public float detectionRadius = 5f;
     private SphereCollider sphereCollider;
 
     [Header("Navigation")]
     [SerializeField] private Transform[] waypoints;
-    [SerializeField] private float speed = 3.5f;
+    [SerializeField] public float speed = 3.5f;
     [SerializeField] private float acceleration = 8f;
     [SerializeField] private float angularSpeed = 120f;
     [SerializeField] private bool autoBraking = false;
-    private NavMeshAgent agent;
-    private int currentWaypointIndex = 0;
-    private bool playerInRadius = false;
-    private Transform player;
+    [SerializeField] public bool playerInRadius = false;
+    [HideInInspector] public NavMeshAgent agent;
+    [HideInInspector] public int currentWayPointIndex = 0;
+    [HideInInspector] public Transform player;
 
     [Header("AI Settings")]
-    [SerializeField] private float pathUpdateInterval = 0.2f;
-    private float pathUpdateTimer = 0f;
+    [SerializeField] public float pathUpdateInterval = 0.2f;
+    public float pathUpdateTimer = 0f;
 
     protected void Start()
     {
@@ -46,7 +46,7 @@ public class Enemy : MonoBehaviour
 
         if (waypoints.Length > 0)
         {
-            agent.SetDestination(waypoints[currentWaypointIndex].position);
+            agent.SetDestination(waypoints[currentWayPointIndex].position);
         }
 
         sphereCollider = GetComponent<SphereCollider>();
@@ -62,14 +62,7 @@ public class Enemy : MonoBehaviour
 
     protected void Update()
     {
-        pathUpdateTimer += Time.deltaTime;
-
-        if (playerInRadius && player != null && pathUpdateTimer >= pathUpdateInterval)
-        {
-            agent.SetDestination(player.position);
-            pathUpdateTimer = 0f;
-        }
-        else if (!playerInRadius)
+        if (!playerInRadius)
         {
             Patrol();
         }
@@ -83,8 +76,8 @@ public class Enemy : MonoBehaviour
 
         if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
         {
-            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
-            agent.SetDestination(waypoints[currentWaypointIndex].position);
+            currentWayPointIndex = (currentWayPointIndex + 1) % waypoints.Length;
+            agent.SetDestination(waypoints[currentWayPointIndex].position);
         }
     }
 

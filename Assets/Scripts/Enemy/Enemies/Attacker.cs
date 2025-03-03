@@ -10,7 +10,16 @@ public class Attacker : EnemyMod
         this.enemy = enemy;
     }
 
-    public override void ModUpdate(Enemy enemy) { }
+    public override void ModUpdate(Enemy enemy)
+    {
+        enemy.pathUpdateTimer += Time.deltaTime;
+
+        if (enemy.playerInRadius && enemy.player != null && enemy.pathUpdateTimer >= enemy.pathUpdateInterval)
+        {
+            enemy.agent.SetDestination(enemy.player.position);
+            enemy.pathUpdateTimer = 0f;
+        }
+    }
 
     private void OnCollisionStay(Collision collision)
     {

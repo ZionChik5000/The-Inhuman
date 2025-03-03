@@ -50,18 +50,14 @@ public class PlayerShooting : MonoBehaviour
 
         RaycastHit[] hits = Physics.RaycastAll(fpsCam.transform.position, fpsCam.transform.forward, range, enemyLayer);
 
-        bool damageDealt = false;
         foreach (RaycastHit hit in hits)
         {
             if (!hit.collider.isTrigger)
             {
                 ProcessShot(hit);
-                damageDealt = true;
                 break;
             }
         }
-
-        if (!damageDealt) Debug.Log("No valid enemy hit.");
 
         StartRecoil();
     }
