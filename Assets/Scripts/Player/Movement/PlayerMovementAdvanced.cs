@@ -103,6 +103,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
             Jump();
             Invoke(nameof(ResetJump), jumpCooldown);
         }
+
+        Debug.Log(grounded);
     }
 
     private void HandleCrouchInput()
