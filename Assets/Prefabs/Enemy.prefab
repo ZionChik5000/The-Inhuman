@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 1261431515151237099}
   m_Layer: 3
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -202,4 +202,9 @@ MonoBehaviour:
   acceleration: 4
   angularSpeed: 180
   autoBraking: 1
+  playerInRadius: 0
+  agent: {fileID: 0}
+  currentWayPointIndex: 0
+  player: {fileID: 0}
   pathUpdateInterval: 0.2
+  pathUpdateTimer: 0
