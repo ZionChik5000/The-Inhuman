@@ -21,18 +21,26 @@ public abstract class WeaponBase : MonoBehaviour
 
     public void ProcessShot(RaycastHit hit)
     {
-        Enemy enemy = hit.transform.GetComponent<Enemy>();
-        if (enemy != null)
+        if (hit.transform.CompareTag("Enemy"))
         {
             Debug.Log("Enemy hit, processing damage.");
-            float finalDamage = CalculateDamage();
-            enemy.TakeDamage(finalDamage);
+            Enemy enemy = hit.transform.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                float finalDamage = CalculateDamage();
+                enemy.TakeDamage(finalDamage);
+            }
+            else
+            {
+                Debug.Log("Enemy component not found on the hit object.");
+            }
         }
         else
         {
             Debug.Log("Hit object is not an enemy.");
         }
     }
+
 
     public float CalculateDamage()
     {

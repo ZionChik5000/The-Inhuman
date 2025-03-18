@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1318965892409479428
+--- !u!1 &1428882844872718800
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,51 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 856557917282011390}
-  - component: {fileID: 5248804795807861832}
-  - component: {fileID: 1610522876814533451}
-  - component: {fileID: 8325410998695760836}
-  - component: {fileID: 3082765414881468330}
-  - component: {fileID: 611409237012926752}
-  m_Layer: 0
-  m_Name: Bullet
-  m_TagString: Bullet
+  - component: {fileID: 5141471632663636044}
+  - component: {fileID: 4577363319995152041}
+  - component: {fileID: 2203105876959064329}
+  - component: {fileID: 5858073578799528351}
+  - component: {fileID: 7705385147381715610}
+  - component: {fileID: 5064334705777251906}
+  - component: {fileID: 3153495258511341082}
+  - component: {fileID: 5418290534831326890}
+  m_Layer: 3
+  m_Name: EnemyBig
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &856557917282011390
+--- !u!4 &5141471632663636044
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1318965892409479428}
+  m_GameObject: {fileID: 1428882844872718800}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27.039864, y: -0.36739206, z: -10.118306}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 39.381096, y: -18.4, z: -21.612062}
+  m_LocalScale: {x: 2, y: 1.5, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5248804795807861832
+--- !u!33 &4577363319995152041
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1318965892409479428}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &1610522876814533451
+  m_GameObject: {fileID: 1428882844872718800}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &2203105876959064329
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1318965892409479428}
+  m_GameObject: {fileID: 1428882844872718800}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -64,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d11640b97faa8894ab3ccb60a0fe8b7b, type: 2}
+  - {fileID: 2100000, guid: 983cea86f47eebd4281dfc3cca83df30, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86,13 +88,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &8325410998695760836
-SphereCollider:
+--- !u!136 &5858073578799528351
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1318965892409479428}
+  m_GameObject: {fileID: 1428882844872718800}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -104,16 +106,39 @@ SphereCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5000001
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!135 &7705385147381715610
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428882844872718800}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &3082765414881468330
+--- !u!54 &5064334705777251906
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1318965892409479428}
+  m_GameObject: {fileID: 1428882844872718800}
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
@@ -129,20 +154,57 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
+  m_UseGravity: 1
+  m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &611409237012926752
+--- !u!195 &3153495258511341082
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428882844872718800}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5000001
+  m_Speed: 4
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 3
+--- !u!114 &5418290534831326890
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1318965892409479428}
+  m_GameObject: {fileID: 1428882844872718800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 864e97574fa85b4418f81761199ef802, type: 3}
+  m_Script: {fileID: 11500000, guid: beda10c3acc940742a726f7d39493bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
+  damage: 10
+  attackCooldownS: 4
+  detectionRadius: 5
+  waypoints: []
+  speed: 2.5
+  acceleration: 4
+  angularSpeed: 180
+  autoBraking: 1
+  playerInRadius: 0
+  agent: {fileID: 0}
+  currentWayPointIndex: 0
+  player: {fileID: 0}
+  pathUpdateInterval: 0.2
+  pathUpdateTimer: 0
