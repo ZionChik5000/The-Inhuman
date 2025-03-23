@@ -6,8 +6,8 @@ public class Shotgun : WeaponBase
 {
     [Header("Shotgun Settings")]
     [SerializeField] private int pellets = 12; 
-    [SerializeField] private float spreadAngle = 20f; 
-    [SerializeField] private float recoilAngle = 5f; 
+    [SerializeField] private float spreadAngle = 7f; 
+    [SerializeField] private float recoilAngle = 15f; 
     [SerializeField] private float recoilDuration = 0.1f; 
     [SerializeField] private float recoilReturnDuration = 0.9f; 
     [SerializeField] private float maxRecoilAngle = 15f; 
@@ -58,7 +58,7 @@ public class Shotgun : WeaponBase
 
     public override void Shoot()
     {
-        if (fpsCam == null)
+        if (weaponCamera == null)
         {
             Debug.LogWarning("FPS Camera is not assigned, cannot shoot.");
             return;
@@ -67,15 +67,15 @@ public class Shotgun : WeaponBase
         for (int i = 0; i < pellets; i++)
         {
             Vector3 spread = GetRandomSpreadDirection();
-            if (Physics.Raycast(fpsCam.transform.position, spread, out RaycastHit hit, range, enemyLayer))
+            if (Physics.Raycast(weaponCamera.transform.position, spread, out RaycastHit hit, range, enemyLayer))
             {
                 ProcessShot(hit);
-                ShowTracer(fpsCam.transform.position, hit.point);
+                ShowTracer(weaponCamera.transform.position, hit.point);
             }
             else
             {
-                Vector3 endPoint = fpsCam.transform.position + spread * range;
-                ShowTracer(fpsCam.transform.position, endPoint);
+                Vector3 endPoint = weaponCamera.transform.position + spread * range;
+                ShowTracer(weaponCamera.transform.position, endPoint);
             }
         }
 
@@ -87,7 +87,7 @@ public class Shotgun : WeaponBase
         float randomYaw = Random.Range(-spreadAngle, spreadAngle);
         float randomPitch = Random.Range(-spreadAngle, spreadAngle);
         Quaternion spreadRotation = Quaternion.Euler(randomPitch, randomYaw, 0);
-        return spreadRotation * fpsCam.transform.forward;
+        return spreadRotation * weaponCamera.transform.forward;
     }
 
     private void ShowTracer(Vector3 start, Vector3 end)

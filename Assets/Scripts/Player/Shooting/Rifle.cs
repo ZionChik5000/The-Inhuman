@@ -4,7 +4,7 @@ using UnityEngine;
 public class Rifle : WeaponBase
 {
     [SerializeField] private float fireRate = 0.2f;
-    [SerializeField] private float maxSpreadAngle = 15f;
+    [SerializeField] private float maxSpreadAngle = 5f;
     [SerializeField] private float recoilShakeIntensity = 0.1f;
     [SerializeField] private float recoilShakeDuration = 0.1f;
 
@@ -35,19 +35,19 @@ public class Rifle : WeaponBase
 
     public override void Shoot()
     {
-        if (fpsCam == null)
+        if (weaponCamera == null)
         {
             Debug.LogWarning("FPS Camera is not assigned, cannot shoot.");
             return;
         }
 
         lineRenderer.enabled = true;
-        lineRenderer.SetPosition(0, fpsCam.transform.position);
+        lineRenderer.SetPosition(0, weaponCamera.transform.position);
 
-        Vector3 direction = fpsCam.transform.forward;
+        Vector3 direction = weaponCamera.transform.forward;
         direction = ApplySpread(direction);
 
-        if (Physics.Raycast(fpsCam.transform.position, direction, out RaycastHit hit, range, enemyLayer))
+        if (Physics.Raycast(weaponCamera.transform.position, direction, out RaycastHit hit, range, enemyLayer))
         {
             Debug.Log($"Hit: {hit.transform.name}");
             ProcessShot(hit);
@@ -55,7 +55,7 @@ public class Rifle : WeaponBase
         }
         else
         {
-            lineRenderer.SetPosition(1, fpsCam.transform.position + direction * range);
+            lineRenderer.SetPosition(1, weaponCamera.transform.position + direction * range);
         }
 
         StartCoroutine(FadeLineRenderer());

@@ -6,10 +6,11 @@ public abstract class WeaponBase : MonoBehaviour
 {
     [Header("Shooting Settings")]
     [SerializeField] private float damage = 10f;
-    [SerializeField] protected float range = 500f;
+    [SerializeField] protected float range = 2000f;
     [SerializeField] protected LayerMask enemyLayer;
 
     protected Camera fpsCam;
+    protected Camera weaponCamera;
     private PlayerMovementAdvanced playerMovement;
     protected LineRenderer lineRenderer;
     protected Transform _handPosition;
@@ -76,12 +77,13 @@ public abstract class WeaponBase : MonoBehaviour
         lineRenderer.enabled = false;
     }
 
-    public void Initialize(Camera fpsCam, LineRenderer lineRenderer, PlayerMovementAdvanced playerMovement, Transform handPosition)
+    public void Initialize(Camera fpsCam, LineRenderer lineRenderer, PlayerMovementAdvanced playerMovement, Transform handPosition, Camera weaponCamera)
     {
         this.fpsCam = fpsCam;
         this.lineRenderer = lineRenderer;
         this.playerMovement = playerMovement;
         _handPosition = handPosition;
+        this.weaponCamera = weaponCamera;
 
         if (fpsCam == null)
         {

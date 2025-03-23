@@ -40,16 +40,16 @@ public class Pistol : WeaponBase
 
     public override void Shoot()
     {
-        if (fpsCam == null)
+        if (weaponCamera == null)
         {
             Debug.LogWarning("FPS Camera is not assigned, cannot shoot.");
             return;
         }
 
         lineRenderer.enabled = true;
-        lineRenderer.SetPosition(0, fpsCam.transform.position);
+        lineRenderer.SetPosition(0, weaponCamera.transform.position);
 
-        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out RaycastHit hit, range, enemyLayer))
+        if (Physics.Raycast(weaponCamera.transform.position, weaponCamera.transform.forward, out RaycastHit hit, range, enemyLayer))
         {
             Debug.Log($"Hit: {hit.transform.name}");
             ProcessShot(hit);
@@ -57,7 +57,7 @@ public class Pistol : WeaponBase
         }
         else
         {
-            lineRenderer.SetPosition(1, fpsCam.transform.position + fpsCam.transform.forward * range);
+            lineRenderer.SetPosition(1, weaponCamera.transform.position + weaponCamera.transform.forward * range);
         }
 
         StartRecoil();

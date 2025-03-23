@@ -3,6 +3,7 @@ using UnityEngine;
 public class WeaponSwitcherNew : MonoBehaviour
 {
     [SerializeField] protected Camera fpsCam;
+    [SerializeField] protected Camera weaponCamera;
     [SerializeField] private PlayerMovementAdvanced playerMovement;
     [SerializeField] protected LineRenderer lineRenderer;
 
@@ -61,7 +62,7 @@ public class WeaponSwitcherNew : MonoBehaviour
 
         // Создаем новое оружие
         currentWeaponScript = Instantiate(weaponPrefabs[index], weaponHolder);
-        currentWeaponScript.Initialize(fpsCam, lineRenderer, playerMovement, weaponHolder);
+        currentWeaponScript.Initialize(fpsCam, lineRenderer, playerMovement, weaponHolder, weaponCamera);
         currentWeapon = currentWeaponScript.gameObject;
         currentWeapon.gameObject.SetActive(true);
         currentWeapon.transform.localPosition = Vector3.zero;
