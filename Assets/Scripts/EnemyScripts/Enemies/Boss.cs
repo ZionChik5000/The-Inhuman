@@ -1,5 +1,6 @@
-using System.Collections;
+п»їusing System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class BossController : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class BossController : MonoBehaviour
     private Color originalColor;
     private Renderer bossRenderer;
     private Rigidbody rb;
+    private NavMeshAgent agent;
     private bool isDashing = false;
 
     void Start()
@@ -25,15 +27,19 @@ public class BossController : MonoBehaviour
         bossRenderer = GetComponent<Renderer>();
         originalColor = bossRenderer.material.color;
         rb = GetComponent<Rigidbody>();
+        agent = GetComponent<NavMeshAgent>();
+        if (agent != null)
+        {
+            agent.speed = moveSpeed;
+        }
         StartCoroutine(AttackCycle());
     }
 
     void Update()
     {
-        if (!isDashing)
+        if (!isDashing && agent != null && player != null)
         {
-            Vector3 direction = (player.position - transform.position).normalized;
-            rb.MovePosition(transform.position + direction * moveSpeed * Time.deltaTime);
+            agent.SetDestination(player.position);
         }
     }
 
@@ -51,7 +57,7 @@ public class BossController : MonoBehaviour
     void ShootProjectiles()
     {
         float angleStep = 360f / projectileCount;
-        float spawnDistance = 3f; // Расстояние для создания снарядов вне босса
+        float spawnDistance = 3f;
         for (int i = 0; i < projectileCount; i++)
         {
             float angle = i * angleStep * Mathf.Deg2Rad;
@@ -64,18 +70,29 @@ public class BossController : MonoBehaviour
 
     IEnumerator DashAttack()
     {
+        float dashRange = dashSpeed * dashDuration + 1f;
+        if (Vector3.Distance(transform.position, player.position) > dashRange)
+        {
+            yield break;
+        }
+        if (agent != null)
+        {
+            agent.isStopped = true;
+        }
         rb.velocity = Vector3.zero;
         bossRenderer.material.color = dashColor;
         yield return new WaitForSeconds(1f);
-
         Vector3 dashDirection = (player.position - transform.position).normalized;
-        rb.velocity = dashDirection * dashSpeed;
         isDashing = true;
+        rb.velocity = dashDirection * dashSpeed;
         yield return new WaitForSeconds(dashDuration);
-
         rb.velocity = Vector3.zero;
         bossRenderer.material.color = originalColor;
         isDashing = false;
+        if (agent != null)
+        {
+            agent.isStopped = false;
+        }
     }
 
     void OnCollisionEnter(Collision collision)
