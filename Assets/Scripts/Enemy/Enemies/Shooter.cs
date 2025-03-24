@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Shooter : EnemyMod
 {
@@ -16,38 +17,50 @@ public class Shooter : EnemyMod
 
     public override void ModUpdate(Enemy enemy)
     {
-        Shoot();
-        Retret();
+        if (enemy.playerInRadius && enemy.player != null)
+        {
+            HandleRetreat();
+            HandleShooting();
+
+            //Debug raycast
+            if (shootPoint != null && enemy?.player != null)
+            {
+                Vector3 directionToPlayer = (enemy.player.position - shootPoint.position).normalized;
+                Debug.DrawRay(shootPoint.position, directionToPlayer * 100, Color.red);
+            }
+        }
     }
 
     private float DistanceToPlayer()
     {
+        if (enemy.player == null)
+            return Mathf.Infinity;
         return Vector3.Distance(enemy.transform.position, enemy.player.position);
     }
 
-    private void Retret()
+    private void HandleRetreat()
     {
-        if (!enemy.playerInRadius || enemy.player == null) return;
-
         if (DistanceToPlayer() < retreatDistance)
         {
             Vector3 retreatDirection = (enemy.transform.position - enemy.player.position).normalized;
             retreatDirection.y = 0;
             Vector3 targetPosition = enemy.player.position + retreatDirection * retreatDistance;
-
             enemy.agent.SetDestination(targetPosition);
         }
     }
 
-    private void Shoot()
+    private void HandleShooting()
     {
-        if (Time.time - lastShootTime < shootDelay || bulletPrefab == null || shootPoint == null) return;
+        if (Time.time - lastShootTime < shootDelay || bulletPrefab == null || shootPoint == null)
+            return;
 
-        if (Physics.Raycast(enemy.transform.position, enemy.transform.forward, out RaycastHit hit))
+        Vector3 directionToPlayer = (enemy.player.position - shootPoint.position).normalized;
+
+        if (Physics.Raycast(shootPoint.position, directionToPlayer, out RaycastHit hit))
         {
             if (hit.collider.CompareTag("Player"))
             {
-                Instantiate(bulletPrefab, shootPoint.position, shootPoint.rotation);
+                Instantiate(bulletPrefab, shootPoint.position, Quaternion.LookRotation(directionToPlayer));
                 lastShootTime = Time.time;
             }
         }
