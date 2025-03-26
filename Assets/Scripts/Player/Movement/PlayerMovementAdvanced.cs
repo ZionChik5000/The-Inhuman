@@ -115,7 +115,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     {
         if (Input.GetKeyDown(dashKey) && readyToDash)
         {
-            Debug.Log("Dash key pressed"); // Debug log
+            Debug.Log("Dash key pressed");
             StartDash();
         }
     }
@@ -138,6 +138,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         if (IsCrouching())
         {
             SetState(MovementState.Crouching, crouchSpeed);
+            GetComponent<HpController>().Heal();
         }
         else if (IsSprinting())
         {
@@ -189,7 +190,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void ControlSpeed()
     {
-        if (state != MovementState.Dashing) // Ensure speed control doesn't affect dashing
+        if (state != MovementState.Dashing)
         {
             if (OnSlope() && !exitingSlope) LimitSlopeSpeed();
             else LimitGroundAirSpeed();
@@ -238,14 +239,13 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void StartDash()
     {
-        Debug.Log("Starting Dash"); // Debug log
+        Debug.Log("Starting Dash");
         readyToDash = false;
         state = MovementState.Dashing;
-        rb.velocity = Vector3.zero; // Stop current movement
+        rb.velocity = Vector3.zero;
         rb.AddForce(moveDirection.normalized * dashForce, ForceMode.VelocityChange);
         Invoke(nameof(StopDash), dashDuration);
 
-        // Показать панель перезарядки
         StartCoroutine(ShowDashCooldown());
     }
 
@@ -253,13 +253,11 @@ public class PlayerMovementAdvanced : MonoBehaviour
     {
         dashCooldownPanel.SetActive(true);
 
-        // Очищаем полоски
         foreach (Image bar in cooldownBars)
         {
             bar.enabled = false;
         }
 
-        // Включаем полоски по одной каждую секунду
         for (int i = 0; i < cooldownBars.Count; i++)
         {
             cooldownBars[i].enabled = true;
@@ -271,14 +269,14 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void StopDash()
     {
-        Debug.Log("Stopping Dash"); // Debug log
+        Debug.Log("Stopping Dash");
         state = MovementState.Walking;
         Invoke(nameof(ResetDash), dashCooldown);
     }
 
     private void ResetDash()
     {
-        Debug.Log("Resetting Dash"); // Debug log
+        Debug.Log("Resetting Dash");
         readyToDash = true;
     }
 
@@ -287,12 +285,9 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     public void SetKeyBindings(KeyCode forward, KeyCode backward, KeyCode left, KeyCode right, KeyCode jump, KeyCode crouch, KeyCode dash)
     {
-        // Обновляем клавиши действий
         this.jumpKey = jump;
         this.crouchKey = crouch;
         this.dashKey = dash;
-
-        // Если используете встроенные Input.GetAxisRaw("Horizontal"), измените систему ввода для кастомных клавиш.
     }
 
 }

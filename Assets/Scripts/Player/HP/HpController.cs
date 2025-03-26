@@ -8,6 +8,7 @@ public class HpController : MonoBehaviour
 {
     [Header("Player Settings")]
     [SerializeField] private float health = 100f;
+    [SerializeField] private float healAmount = 0.05f;
     [SerializeField] private TextMeshProUGUI hpText;
 
     private DeadScreen deadscreen;
@@ -21,6 +22,21 @@ public class HpController : MonoBehaviour
     public void TakeDamage(float damage)
     {
         health -= damage;
+        HandleHpChange();
+    }
+
+    public void Heal()
+    {
+        if (health < 100)
+        {
+            health = health + Time.deltaTime * ((100 - health) * healAmount);
+            health = Mathf.Min(health, 100);
+            HandleHpChange();
+        }
+    }
+
+    private void HandleHpChange()
+    {
         hpText.text = Math.Round(health).ToString();
         if (health <= 0f)
         {
