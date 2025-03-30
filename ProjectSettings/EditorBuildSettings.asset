@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/GameDevLab.unity
+    path: Assets/ImportedAssets/Otoh Art/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/Scenes/MenuScene.unity
@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BossFight.unity
     guid: 3e04be390d77c2a4491f199004913e7a
+  - enabled: 1
+    path: Assets/Scenes/BunkerScene.unity
+    guid: d421fb37e3353b14597a878ebf81d203
   m_configObjects: {}
