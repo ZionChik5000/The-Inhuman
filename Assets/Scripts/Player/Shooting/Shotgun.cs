@@ -13,7 +13,7 @@ public class Shotgun : WeaponBase
     [SerializeField] private float maxRecoilAngle = 15f; 
     [SerializeField] private GameObject lineRendererPrefab; 
     [SerializeField] private int poolSize = 20; 
-    [SerializeField] private float fireRate = 0.5f;
+    [SerializeField] private float fireRate = 2f;
 
     private bool isRecoiling = false;
     private bool isShooting = false;
@@ -63,6 +63,8 @@ public class Shotgun : WeaponBase
             Debug.LogWarning("FPS Camera is not assigned, cannot shoot.");
             return;
         }
+
+        SoundManager.Play("shotgun");
 
         for (int i = 0; i < pellets; i++)
         {

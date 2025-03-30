@@ -3017,6 +3017,57 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &8210755021373044459
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3273161091709527406}
+  - component: {fileID: 1341951460268557918}
+  m_Layer: 6
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3273161091709527406
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8210755021373044459}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8289418450642783645}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1341951460268557918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8210755021373044459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb0e0f256dcbf9d4986a6419539009eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: ak47
+    clip: {fileID: 8300000, guid: 92218d6f55e7a7646b483c3ff6bd0cb0, type: 3}
+  - name: pistol
+    clip: {fileID: 8300000, guid: 2906898782fbb7f40816d2f56dbd0bd2, type: 3}
+  - name: shotgun
+    clip: {fileID: 8300000, guid: e1f5bf91374f62f4abf95232471252c9, type: 3}
 --- !u!1 &8279072593581153091
 GameObject:
   m_ObjectHideFlags: 0
@@ -3649,7 +3700,11 @@ PrefabInstance:
       objectReference: {fileID: 5565934998592443612}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7300000431068093057, guid: ed4ad77fae395d941a5e1f47601bf77f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3273161091709527406}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed4ad77fae395d941a5e1f47601bf77f, type: 3}
 --- !u!4 &868468293543767286 stripped

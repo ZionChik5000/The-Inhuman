@@ -46,6 +46,8 @@ public class Pistol : WeaponBase
             return;
         }
 
+        SoundManager.Play("pistol");
+
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, weaponCamera.transform.position);
 
