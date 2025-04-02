@@ -41,6 +41,8 @@ public class Rifle : WeaponBase
             return;
         }
 
+        SoundManager.Play("ak47");
+
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, weaponCamera.transform.position);
 

@@ -70,10 +70,6 @@ public class PlayerShooting : MonoBehaviour
             float finalDamage = CalculateDamage();
             enemy.TakeDamage(finalDamage);
         }
-        else
-        {
-            Debug.Log("Hit object is not an enemy.");
-        }
     }
 
 
